@@ -1,5 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Member
+from .serializers import MemberSerializer
 
-def index(request):
-    return HttpResponse("Hello world!")
+class ProductList(APIView):
+    def get(self, request):
+        products = Member.objects.all()
+        serializer =MemberSerializer(products, many=True)
+        return Response(serializer.data)
